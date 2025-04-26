@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import ButtonScreenshot from "./Components/ButtonScreenshot"
 
 export default function Webcam() {
   const videoRef = useRef(null);
@@ -9,6 +10,13 @@ export default function Webcam() {
   const [hasPermission, setHasPermission] = useState(null);
   const [error, setError] = useState(null);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [feedback, setFeedback] = useState([]);
+  const [frames, setFrames] = useState([]);
+  const [countDownText, setCountDownText] = useState();
+  const [currentSign, setCurrentSign] = useState({
+    entryCount: 2,
+    signName: null
+  })
 
   useEffect(() => {
     // Function to initialize and access the webcam
@@ -19,7 +27,6 @@ export default function Webcam() {
           video: true,
           audio: false
         });
-        
             console.log("Webcam access granted, setting up video stream");
             console.log(videoRef);
             setHasPermission(true);
@@ -69,8 +76,26 @@ export default function Webcam() {
     //   clearPhoto();
     // }
 
+    //sending photo URI to backend
+    const formdata = new FormData();
+    formdata.append("signName", "My"); 
+    formdata.append("frameNumber", "1");
+    formdata.append("imageBase64", data + "\n");
 
-  }
+    const requestOptions = {
+    method: "POST",
+    body: formdata,
+    redirect: "follow"
+    };
+
+    // fetch("https://test-asl-api.onrender.com/", requestOptions)
+    //   .then((response) => {
+    //     setFeedback(v => [...v, response.text()]);
+    //     setFrames((v) => [...v, data]);
+    //   })
+    //   .then((result) => console.log(result))
+    //   .catch((error) => console.error(error));
+    }
   
 
     useEffect(() => {
@@ -89,7 +114,7 @@ export default function Webcam() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="max-w-2xl w-full">
-        <h1 className="text-2xl font-bold text-center mb-6">Webcam App</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">Learn Sign Language!</h1>
         
         <div className="bg-white p-4 rounded-lg shadow-md">
           {hasPermission === null ? (
@@ -101,13 +126,13 @@ export default function Webcam() {
               <p className="font-bold">Camera access denied</p>
               <p className="mt-2">{error || "Please allow camera access to use this app."}</p>
             </div>
-          ) : (
-              <div className="relative">
-                  <canvas
-                    ref={canvasRef}
-                    // className="w-full rounded-md bg-black"
-                    style={{ visibility: "hidden", width: 0, height: 0 }}
-                  />
+          ) : (<>
+                <canvas
+                  ref={canvasRef}
+                  // className="w-full rounded-md bg-black"
+                  style={{ visibility: "hidden", width: 0, height: 0 }}
+                />
+            <div className="webcam-container" style= {{ position: "relative"}}>
                   <video 
                     ref={videoRef} 
                     autoPlay 
@@ -116,14 +141,34 @@ export default function Webcam() {
                     className="w-full rounded-md bg-black"
                     style={{ minHeight: "240px" }}
                   />
-              
               {!isVideoLoaded && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white">
                   Loading camera feed...
                 </div>
               )}
+
+              <div className="countdown-overlay"
+                  style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      background: "rgba(0, 0, 0, 0.6)",
+                      color: "white",
+                      padding: "10px 20px",
+                      borderRadius: "8px",
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                      zIndex: 10,
+                      display: "flex",
+                      gap: "10px"
+                    }}
+                    >
+                    {countDownText}
+                </div>
             </div>
-          )}
+
+        </>)}
         </div>
         
         <div className="mt-4 text-center">
@@ -141,6 +186,12 @@ export default function Webcam() {
         >
           Take screenshot
         </button>
+
+        <ButtonScreenshot
+          currentSign={currentSign}
+          takeScreenshot={() => takeScreenshot()}
+          setCountDownText={setCountDownText}
+        />
 
         {/* <img
           ref={photoRef}
