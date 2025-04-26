@@ -85,13 +85,17 @@ def evaluate_keyframe():
         my_file = client.files.upload(file=filepath)
 
         prompt = f"""
-You are provided with a single keyframe image showing a sign language learner's hand and body position while they attempt to perform the sign '{sign_name}'. Carefully analyze the image according to the evaluation guide below, and provide clear, detailed feedback for each category. Address the learner directly in a single paragraph, referencing the evaluation criteria naturally without mentioning the guide or this prompt. Begin immediately with the feedback — do not preface your response. If the learner’s sign appears incorrect or not recognizable as the intended sign, this is a critical issue that you must explicitly point out. Conclude with an overall assessment of their performance at the end of the paragraph, where you must determine if the correct sign was performed accurately.
+Do not preface your response.
 
-Evaluation Guide for {sign_name} (Frame {frame_number}):
+First, verify if the image shows a person plausibly attempting sign language and briefly describe its content. If not (e.g., showing an object, animal, or unrelated action), state it's unsuitable for feedback because it doesn't depict a relevant sign attempt, and stop.
+
+If suitable, address the learner directly in one paragraph. Focusing only on this single keyframe and not the entire sign's movement, evaluate their performance based on the evaluation guide below. Reference details about their handshape, location, palm orientation, and non-manual signals naturally into your critique, without mentioning the guide or its categories. Conclude by assessing how accurately this specific frame matches the guide's information about '{sign_name}' and how recognizable it is as part of that sign (whether a person who knows sign language would be able to recognize it).
+
+Evaluation guide for current keyframe in {sign_name}:
 Handshape: {sign_details[0]}
 Location: {sign_details[1]}
 Palm Orientation: {sign_details[2]}
-Facial Expression/Non-Manual Signals (NMS): {sign_details[3]}
+Non-Manual Signals: {sign_details[3]}
 """
 
         response = client.models.generate_content(
