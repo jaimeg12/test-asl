@@ -164,7 +164,8 @@ export default function Webcam() {
                 </div>
               )}
 
-              <div className="countdown-overlay"
+              {countDownText && countDownText.length > 0 &&
+                <div className="countdown-overlay"
                   style={{
                       position: "absolute",
                       top: "50%",
@@ -183,6 +184,7 @@ export default function Webcam() {
                     >
                     {countDownText}
                 </div>
+              }
             </div>
 
         </>)}
@@ -195,14 +197,14 @@ export default function Webcam() {
           {error && <p className="text-sm text-red-500 mt-1">Error: {error}</p>}
         </div>
 
-        <button
+        {/* <button
           onClick={(e) => {
             e.preventDefault()
             takeScreenshot()
           }}
         >
           Take screenshot
-        </button>
+        </button> */}
 
         <ButtonScreenshot
           currentSign={currentSign}
