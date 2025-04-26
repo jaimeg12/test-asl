@@ -21,22 +21,22 @@ def evaluate_keyframe():
     frame_number_str = request.form.get('frameNumber')
 
     if not sign_name:
-        return "missing signName in params", 400
+        return "Missing required parameter: 'signName'.", 400
     if not frame_number_str:
-        return "missing frameNumber in params", 400
+        return "Missing required parameter: 'frameNumber'.", 400
 
     try:
         frame_number = int(frame_number_str)
     except ValueError:
-        return "frameNumber not int", 400
+        return "'frameNumber' must be an integer.", 400
 
     if 'image' not in request.files:
-        return "missing image in params", 400
+        return "Missing required file upload: 'image'.", 400
 
     file = request.files['image']
 
     if file.filename == '':
-        return "missing filename in image", 400
+        return "Uploaded image must have a valid filename.", 400
 
     filepath = f"./images/{file.filename}"
 
@@ -44,7 +44,7 @@ def evaluate_keyframe():
         file.save(filepath)
     except Exception as e:
         print(f"File save error: {e}")
-        return "file save error", 500
+        return "Failed to save the uploaded image file.", 500
 
     conn = None
     sign_details = None
@@ -63,13 +63,13 @@ def evaluate_keyframe():
         cursor.close()
     except (Exception, psycopg2.Error) as e:
         print(f"Database error: {e}")
-        return "database error", 500
+        return "An error occurred while accessing the database.", 500
     finally:
         if conn is not None:
             conn.close()
 
     if not sign_details:
-        return f"Sign details not found for sign '{sign_name}' frame {frame_number}", 404
+        return f"No sign details found for '{sign_name}' at frame {frame_number}.", 404
 
     my_file = None
     response_text = None
@@ -94,7 +94,7 @@ Facial Expression/Non-Manual Signals (NMS): {sign_details[3]}
 
     except Exception as e:
         print(f"Image processing error: {e}")
-        return "image processing error", 500
+        return "An error occurred during image processing and evaluation.", 500
     finally:
         if my_file:
             try:
@@ -106,7 +106,7 @@ Facial Expression/Non-Manual Signals (NMS): {sign_details[3]}
          return response_text
     else:
          print("Error: Reached end of function without valid response or error return.")
-         return "internal processing error", 500
+         return "An unexpected error occurred while processing the request.", 500
 
 if __name__ == "__main__":
     app.run(debug=True)

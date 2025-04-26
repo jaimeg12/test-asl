@@ -3,7 +3,7 @@ import config
 
 client = genai.Client(api_key=config.gemini_key)
 
-my_file = client.files.upload(file="images/08b374fa-da4e-455c-bbc7-0f700148a2b7.png")
+my_file = client.files.upload(file="images/my-in-sign-language.jpg")
 
 response = client.models.generate_content(
     model="gemini-2.0-flash",
