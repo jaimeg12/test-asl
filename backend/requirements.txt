@@ -1,4 +1,4 @@
 google-genai==1.12.1
-config==0.5.1
+python-dotenv=1.0.0
 Flask==2.3.2
 psycopg2==2.9.10

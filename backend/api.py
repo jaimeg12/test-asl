@@ -3,16 +3,19 @@ import re
 from flask import Flask, request
 import psycopg2
 from google import genai
-import config
+import os
+from dotenv import load_dotenv
 
-client = genai.Client(api_key=config.gemini_key)
+load_dotenv()
+
+client = genai.Client(api_key=os.getenv('gemini_key'))
 
 db_config = {
-    'host': config.db_host,
-    'port': config.db_port,
-    'database': config.db_name,
-    'user': config.db_user,
-    'password': config.db_pass
+    'host': os.getenv('db_host'),
+    'port': os.getenv('db_port'),
+    'database': os.getenv('db_name'),
+    'user': os.getenv('db_user'),
+    'password': os.getenv('db_pass')
 }
 
 app = Flask(__name__)

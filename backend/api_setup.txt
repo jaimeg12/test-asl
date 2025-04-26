@@ -1,5 +1,5 @@
 pip install -q -U google-genai
-pip install config
+pip install python-dotenv
 pip install flask
 pip install psycopg2
 
