@@ -1,6 +1,7 @@
 from google import genai
+import config
 
-client = genai.Client(api_key="AIzaSyAxtl5MUd4ar9njJDck7IRU1FAjsNkHpT0")
+client = genai.Client(api_key=config.gemini_key)
 
 my_file = client.files.upload(file="images/08b374fa-da4e-455c-bbc7-0f700148a2b7.png")
 
