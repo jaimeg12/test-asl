@@ -16,7 +16,7 @@ def handle_image():
     if file.filename == '':
         return "no filename", 400
 
-    filepath = f"./{file.filename}"
+    filepath = f"./images/{file.filename}"
     file.save(filepath)
 
     my_file = client.files.upload(file=filepath)
