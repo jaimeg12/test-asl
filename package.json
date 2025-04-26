@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "flowbite-react": "^0.11.7",
-    "react-dropdown-select": "^4.11.4",
-    "react-webcam": "^7.2.0"
-  }
-}
