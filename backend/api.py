@@ -5,6 +5,7 @@ import psycopg2
 from google import genai
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS, cross_origin
 
 load_dotenv()
 
@@ -20,7 +21,11 @@ db_config = {
 
 app = Flask(__name__)
 
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 @app.route("/evaluate", methods=["POST"])
+@cross_origin()
 def evaluate_keyframe():
     sign_name = request.form.get('signName')
     frame_number_str = request.form.get('frameNumber')
@@ -111,6 +116,7 @@ Facial Expression/Non-Manual Signals (NMS): {sign_details[3]}
         return "Unexpected error during evaluation.", 500
 
 @app.route("/signs", methods=["GET"])
+@cross_origin()
 def get_signs():
     conn = None
     try:
@@ -139,6 +145,7 @@ def get_signs():
             conn.close()
 
 @app.route("/explain", methods=["GET"])
+@cross_origin()
 def generate_instruction():
     sign_name = request.args.get('signName')
 
