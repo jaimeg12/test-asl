@@ -8,11 +8,11 @@ import config
 client = genai.Client(api_key=config.gemini_key)
 
 db_config = {
-    'host': 'localhost',
-    'port': 5432,
-    'database': 'postgres',
-    'user': 'postgres',
-    'password': 'pass'
+    'host': config.db_host,
+    'port': config.db_port,
+    'database': config.db_name,
+    'user': config.db_user,
+    'password': config.db_pass
 }
 
 app = Flask(__name__)
