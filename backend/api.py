@@ -20,7 +20,7 @@ db_config = {
 
 app = Flask(__name__)
 
-@app.route("/", methods=["POST"])
+@app.route("/evaluate", methods=["POST"])
 def evaluate_keyframe():
     sign_name = request.form.get('signName')
     frame_number_str = request.form.get('frameNumber')
@@ -137,6 +137,83 @@ def get_signs():
     finally:
         if conn:
             conn.close()
+
+@app.route("/explain", methods=["GET"])
+def generate_instruction():
+    sign_name = request.args.get('signName')
+
+    if not sign_name:
+        print("Instruction request missing 'signName' query parameter.")
+        return "Missing required query parameter: 'signName'.", 400
+
+    conn = None
+    keyframes_data = []
+    try:
+        conn = psycopg2.connect(**db_config)
+        cursor = conn.cursor()
+        sql = """
+            SELECT frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription
+            FROM sign_data
+            WHERE signName = %s
+            ORDER BY frameNumber ASC;
+        """
+        cursor.execute(sql, (sign_name,))
+        results = cursor.fetchall()
+        cursor.close()
+
+        if not results:
+            print(f"No keyframes found for sign during instruction generation: '{sign_name}'")
+            return f"No keyframes found for sign '{sign_name}'.", 404
+
+        for row in results:
+            keyframes_data.append({
+                "frame": row[0],
+                "handshape": row[1],
+                "location": row[2],
+                "orientation": row[3],
+                "nms": row[4]
+            })
+
+    except (Exception, psycopg2.Error) as e:
+        print(f"Database error while fetching keyframes for instruction generation ('{sign_name}'): {e}")
+        return "Database access error.", 500
+    finally:
+        if conn:
+            conn.close()
+
+    instruction_prompt = f"Generate clear and concise step-by-step instructions for a beginner learning to perform the American Sign Language (ASL) sign '{sign_name}'. Use the following keyframe details. Address the learner directly (using 'you'). Describe the handshape, location, palm orientation, and any necessary movement between keyframes. Mention facial expressions or non-manual signals if specified. Focus on clarity and avoid jargon (e.g. 'B' handshape, 'Y' handshape). Do not include any introductory sentence like 'Here are the instructions...' - start directly with the instructions for the sign.\n\n"
+
+    if len(keyframes_data) == 1:
+        frame = keyframes_data[0]
+        instruction_prompt += f"This sign has one primary position (Frame {frame['frame']}):\n"
+        instruction_prompt += f"- Handshape: {frame['handshape']}\n"
+        instruction_prompt += f"- Location (where to place your hand): {frame['location']}\n"
+        instruction_prompt += f"- Palm Orientation: {frame['orientation']}\n"
+        instruction_prompt += f"- Facial Expression/NMS: {frame['nms']}\n\n"
+        instruction_prompt += "Explain how to form and hold this single position clearly."
+    else:
+        instruction_prompt += f"This sign involves {len(keyframes_data)} key steps (frames). Follow these steps in order:\n\n"
+        for frame in keyframes_data:
+            instruction_prompt += f"Step {frame['frame']} (Frame {frame['frame']}):\n"
+            instruction_prompt += f"- Form Handshape: {frame['handshape']}\n"
+            instruction_prompt += f"- Position Hand At: {frame['location']}\n"
+            instruction_prompt += f"- Palm Orientation: {frame['orientation']}\n"
+            instruction_prompt += f"- Facial Expression/NMS: {frame['nms']}\n\n"
+        instruction_prompt += "Explain how to start with the first step (frame), describe the movement needed to transition smoothly to the next step(s), and how to conclude the sign. Make the transitions clear."
+
+    response_text = None
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=[instruction_prompt],
+        )
+        response_text = response.text
+
+    except Exception as e:
+        print(f"Gemini instruction synthesis API error for '{sign_name}': {e}")
+        return "AI instruction generation error.", 500
+
+    return response_text, 200
 
 if __name__ == "__main__":
     app.run(debug=True)
