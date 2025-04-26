@@ -107,5 +107,33 @@ Facial Expression/Non-Manual Signals (NMS): {sign_details[3]}
     else:
         return "Unexpected error during evaluation.", 500
 
+@app.route("/signs", methods=["GET"])
+def get_signs():
+    conn = None
+    try:
+        conn = psycopg2.connect(**db_config)
+        cursor = conn.cursor()
+
+        sql = """
+            SELECT signName, COUNT(*) as entryCount
+            FROM sign_data
+            GROUP BY signName
+            ORDER BY signName ASC;
+        """
+        cursor.execute(sql)
+        results = cursor.fetchall()
+
+        sign_list = [{"signName": row[0], "entryCount": row[1]} for row in results]
+
+        cursor.close()
+        return {"signs": sign_list}, 200
+
+    except (Exception, psycopg2.Error) as e:
+        print(f"Database error: {e}")
+        return "Database access error.", 500
+    finally:
+        if conn:
+            conn.close()
+
 if __name__ == "__main__":
     app.run(debug=True)
