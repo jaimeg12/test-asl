@@ -10,7 +10,7 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText}) => {
       setTimeout(() => {
         takeScreenshot();
         console.log("screenshot taken")
-      }, (delay + 1) * 1000 * (i + 1))
+      }, (delay) * 1000 * (i + 1))
       
       for (let j = 0; j < delay; j++) {
         setTimeout(() => {
