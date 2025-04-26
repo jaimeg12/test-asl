@@ -1,0 +1,4 @@
+google-genai==1.12.1
+config==0.5.1
+Flask==2.3.2
+psycopg2==2.9.10
