@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 export default function Webcam() {
   const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  // const photoRef = useRef(null);
   const [camStream, setCamStream] = useState();
   const [hasPermission, setHasPermission] = useState(null);
   const [error, setError] = useState(null);
@@ -40,6 +43,36 @@ export default function Webcam() {
     };
   }, []);
 
+  //MDM docs
+  // function clearPhoto() {
+  //   const context = canvas.getContext("2d");
+  //   context.fillStyle = "#AAA";
+  //   context.fillRect(0, 0, canvas.width, canvas.height);
+  
+  //   const data = canvas.toDataURL("image/png");
+  //   photo.setAttribute("src", data);
+  // }
+
+  function takeScreenshot() {
+    if (canvasRef.current === null) return
+    
+    const context = canvasRef.current.getContext("2d");
+    // if (width && height) {
+      // canvasRef.current.width = width;
+      // canvasRef.current.height = height;
+      context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+  
+    const data = canvasRef.current.toDataURL("image/png");
+    // console.log(data)
+    // photoRef.current.setAttribute("src", data);
+    // } else {
+    //   clearPhoto();
+    // }
+
+
+  }
+  
+
     useEffect(() => {
         console.log(videoRef)
         if (videoRef.current) {
@@ -69,15 +102,20 @@ export default function Webcam() {
               <p className="mt-2">{error || "Please allow camera access to use this app."}</p>
             </div>
           ) : (
-            <div className="relative">
-              <video 
-                ref={videoRef} 
-                autoPlay 
-                playsInline
-                onCanPlay={handleVideoLoaded}
-                className="w-full rounded-md bg-black"
-                style={{ minHeight: "240px" }}
-              />
+              <div className="relative">
+                  <canvas
+                    ref={canvasRef}
+                    // className="w-full rounded-md bg-black"
+                    style={{ visibility: "hidden", width: 0, height: 0 }}
+                  />
+                  <video 
+                    ref={videoRef} 
+                    autoPlay 
+                    playsInline
+                    onCanPlay={handleVideoLoaded}
+                    className="w-full rounded-md bg-black"
+                    style={{ minHeight: "240px" }}
+                  />
               
               {!isVideoLoaded && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white">
@@ -94,6 +132,20 @@ export default function Webcam() {
           </p>
           {error && <p className="text-sm text-red-500 mt-1">Error: {error}</p>}
         </div>
+
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            takeScreenshot()
+          }}
+        >
+          Take screenshot
+        </button>
+
+        {/* <img
+          ref={photoRef}
+          // style={{ height: "1280px", width: "7"}}
+        /> */}
       </div>
     </div>
   );
