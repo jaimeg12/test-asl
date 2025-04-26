@@ -1,0 +1,34 @@
+-- Table
+CREATE TABLE sign_data (
+    signName VARCHAR(255),
+    frameNumber INT,
+    handShapeDescription TEXT,
+    locationDescription TEXT,
+    orientationDescription TEXT,
+    facialExpressionDescription TEXT
+);
+
+-- Table
+CREATE TABLE sign_data (
+    signName VARCHAR(255),
+    frameNumber INT,
+    handShapeDescription TEXT,
+    locationDescription TEXT,
+    orientationDescription TEXT,
+    facialExpressionDescription TEXT
+);
+
+-- Hello
+INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
+('Hello', 1, 'B-Handshape (Flat hand, thumb alongside)', 'Starts near the temple or forehead', 'Palm facing slightly outward/forward', 'Neutral or friendly (e.g., slight smile, raised eyebrows)'),
+('Hello', 2, 'B-Handshape (Flat hand, thumb alongside)', 'Moves outward and slightly forward away from the head', 'Palm facing slightly outward/forward', 'Neutral or friendly (e.g., slight smile, raised eyebrows)');
+
+-- Name
+INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
+('Name', 1, 'Both hands: H-Handshape (Index and middle fingers extended together, thumb crosses palm or alongside)', 'Hands in front of the chest/upper body', 'Hands form an X shape, dominant hand on top/slightly forward, fingers pointing somewhat opposite', 'Neutral'),
+('Name', 2, 'Both hands: H-Handshape (Index and middle fingers extended together, thumb crosses palm or alongside)', 'Hands in front of the chest/upper body', 'Dominant H-handshape taps the non-dominant H-handshape once (fingers make contact)', 'Neutral'),
+('Name', 3, 'Both hands: H-Handshape (Index and middle fingers extended together, thumb crosses palm or alongside)', 'Hands in front of the chest/upper body', 'Dominant H-handshape lifts slightly then taps the non-dominant H-handshape again (second tap)', 'Neutral');
+
+-- My
+INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
+('My', 1, 'B-Handshape (Flat hand, fingers together, thumb alongside)', 'Placed flat on the center of the chest', 'Palm facing towards the body', 'Neutral');
