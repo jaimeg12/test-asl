@@ -1,0 +1,4 @@
+curl --location 'http://127.0.0.1:5000' \
+--form 'signName="My"' \
+--form 'frameNumber="1"' \
+--form 'image=@"/C:/Users/Owen/Documents/test-asl/backend/images/08b374fa-da4e-455c-bbc7-0f700148a2b7.png"'
