@@ -1,26 +1,38 @@
 import React, { useState } from 'react';
 
-const DelayedAction = ({takeScreenshot, currentSign, setCountDownText}) => {
+const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, setFrames, setFeedback}) => {
   // const [actionStatus, setActionStatus] = useState('Idle');
   const [timerText, setTimerText] = useState();
   
   function startRecording() {
     const delay = 4; // # of seconds between captures
+    setFrames([])
+    const newFramesArray = []
+    const newFeedbackArray = []
     for (let i = 0; i < currentSign.entryCount; i++) {
-      setTimeout(() => {
-        takeScreenshot();
+      setTimeout(async () => {
+        const [frame, text] = await takeScreenshot();
+        newFramesArray.push(frame);
+        newFeedbackArray.push(text);
+        console.log(newFeedbackArray)
+        console.log(newFramesArray)
         console.log("screenshot taken")
-      }, (delay) * 1000 * (i + 1))
+      }, delay * 1000 * (i + 1))
       
       for (let j = 0; j < delay; j++) {
         setTimeout(() => {
           if (j === 0) {
-            setCountDownText("Picture Taken!")
+            setCountDownText(`Picture Taken! (${i + 1}/${currentSign.entryCount})`)
           } else {
             setCountDownText(j.toString());
           }
         }, (delay - j) * 1000 + (i * delay * 1000));
       }
+
+      setTimeout(() => {
+        setFrames(newFramesArray);
+        setFeedback(newFeedbackArray);
+      }, [delay * (currentSign.entryCount + 2) * 1000])
     }
   }
 

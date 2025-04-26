@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* body {
+  background-image: url('./assets/globe_b.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+} */

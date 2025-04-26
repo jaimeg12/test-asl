@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 // import axios from 'axios';
 import ButtonScreenshot from "./Components/ButtonScreenshot"
+import Feedback from './Components/Feedback';
 
 export default function Webcam() {
   const videoRef = useRef(null);
@@ -60,7 +61,7 @@ export default function Webcam() {
   //   photo.setAttribute("src", data);
   // }
 
-  function takeScreenshot() {
+  async function takeScreenshot() {
     if (canvasRef.current === null) return
     
     const context = canvasRef.current.getContext("2d");
@@ -88,14 +89,24 @@ export default function Webcam() {
     redirect: "follow"
     };
 
-    // fetch("https://test-asl-api.onrender.com/", requestOptions)
-    //   .then((response) => {
-    //     setFeedback(v => [...v, response.text()]);
-    //     setFrames((v) => [...v, data]);
-    //   })
-    //   .then((result) => console.log(result))
-    //   .catch((error) => console.error(error));
+    try {
+
+      const response = fetch("https://test-asl-api.onrender.com/evaluate", requestOptions)
+          console.log(response)
+          console.log(response.body)
+        // console.log(response.text().then(v => v));
+      const text = await (await response).text();
+      // const newFeedbackArray = [...feedback, text];
+      // setFeedback(newFeedbackArray);
+      // console.log(feedback)
+      // console.log(frames)
+      // console.log([...feedback, text])
+      return [data, text];
+    } catch (e) {
+      console.error(e);
     }
+    return [];
+  }
   
 
     useEffect(() => {
@@ -104,6 +115,12 @@ export default function Webcam() {
             videoRef.current.srcObject = camStream;
         }
     }, [hasPermission])
+  
+  
+  useEffect(() => {
+      console.log(frames)
+      console.log(feedback)
+    }, [frames, feedback])
 
   // Handle video loaded event
   const handleVideoLoaded = () => {
@@ -191,7 +208,19 @@ export default function Webcam() {
           currentSign={currentSign}
           takeScreenshot={() => takeScreenshot()}
           setCountDownText={setCountDownText}
+          frames={frames}
+          setFrames={setFrames}
+          setFeedback={setFeedback}
         />
+
+        {frames && frames.length > 0 &&
+          <Feedback
+            frames={frames}
+            feedback={feedback}
+          />
+        }
+              
+
 
         {/* <img
           ref={photoRef}
