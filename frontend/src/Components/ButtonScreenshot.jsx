@@ -5,17 +5,20 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText}) => {
   const [timerText, setTimerText] = useState();
   
   function startRecording() {
-    const delay = 3; // # of seconds between captures
+    const delay = 4; // # of seconds between captures
     for (let i = 0; i < currentSign.entryCount; i++) {
       setTimeout(() => {
         takeScreenshot();
-        setCountDownText("Picture Taken!")
         console.log("screenshot taken")
       }, (delay + 1) * 1000 * (i + 1))
       
       for (let j = 0; j < delay; j++) {
         setTimeout(() => {
-          setCountDownText((j + 1).toString());
+          if (j === 0) {
+            setCountDownText("Picture Taken!")
+          } else {
+            setCountDownText(j.toString());
+          }
         }, (delay - j) * 1000 + (i * delay * 1000));
       }
     }
