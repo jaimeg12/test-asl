@@ -1,7 +1,9 @@
-from google import genai
-import config
+import base64
+import re
 from flask import Flask, request
 import psycopg2
+from google import genai
+import config
 
 client = genai.Client(api_key=config.gemini_key)
 
@@ -19,32 +21,30 @@ app = Flask(__name__)
 def evaluate_keyframe():
     sign_name = request.form.get('signName')
     frame_number_str = request.form.get('frameNumber')
+    image_base64 = request.form.get('imageBase64')
 
     if not sign_name:
         return "Missing required parameter: 'signName'.", 400
     if not frame_number_str:
         return "Missing required parameter: 'frameNumber'.", 400
+    if not image_base64:
+        return "Missing required parameter: 'imageBase64'.", 400
 
     try:
         frame_number = int(frame_number_str)
     except ValueError:
         return "'frameNumber' must be an integer.", 400
 
-    if 'image' not in request.files:
-        return "Missing required file upload: 'image'.", 400
-
-    file = request.files['image']
-
-    if file.filename == '':
-        return "Uploaded image must have a valid filename.", 400
-
-    filepath = f"./images/{file.filename}"
-
     try:
-        file.save(filepath)
+        base64_data = re.sub('^data:image/.+;base64,', '', image_base64)
+        image_data = base64.b64decode(base64_data)
+
+        filepath = f"./images/{sign_name}_{frame_number}.jpg"
+        with open(filepath, "wb") as f:
+            f.write(image_data)
     except Exception as e:
-        print(f"File save error: {e}")
-        return "Failed to save the uploaded image file.", 500
+        print(f"Base64 decoding error: {e}")
+        return "Failed to decode or save the image.", 400
 
     conn = None
     sign_details = None
@@ -63,9 +63,9 @@ def evaluate_keyframe():
         cursor.close()
     except (Exception, psycopg2.Error) as e:
         print(f"Database error: {e}")
-        return "An error occurred while accessing the database.", 500
+        return "Database access error.", 500
     finally:
-        if conn is not None:
+        if conn:
             conn.close()
 
     if not sign_details:
@@ -94,19 +94,18 @@ Facial Expression/Non-Manual Signals (NMS): {sign_details[3]}
 
     except Exception as e:
         print(f"Image processing error: {e}")
-        return "An error occurred during image processing and evaluation.", 500
+        return "Image processing or evaluation error.", 500
     finally:
         if my_file:
             try:
                 client.files.delete(name=my_file.name)
             except Exception as del_e:
-                print(f"Warning: Failed to delete GenAI file {my_file.name}: {del_e}")
+                print(f"Warning: Failed to delete uploaded file: {del_e}")
 
-    if response_text is not None:
-         return response_text
+    if response_text:
+        return response_text
     else:
-         print("Error: Reached end of function without valid response or error return.")
-         return "An unexpected error occurred while processing the request.", 500
+        return "Unexpected error during evaluation.", 500
 
 if __name__ == "__main__":
     app.run(debug=True)
