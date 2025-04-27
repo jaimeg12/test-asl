@@ -1,0 +1,17 @@
+.navbar {
+  background-color: #bd6bc8;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  width: 100vw;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.logo {
+  font-size: xx-large;
+  font-weight: 800;
+  text-align: left;
+  text-decoration: none;
+  padding-left: 2.5rem;
+}

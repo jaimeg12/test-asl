@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import '../styles/dropdown.css'
 
 function SelectSign({ setCurrentSign }) {
   const [options, setOptions] = useState();
@@ -45,7 +46,7 @@ function SelectSign({ setCurrentSign }) {
   }, [options])
 
   return (<>
-  <select name="Signs" id="sign-dropdown" onChange={handleSelectChange}>
+  <select name="Signs" className="dropdown" onChange={handleSelectChange}>
       {options && options.map((v, i) => <>
         <option value={`${v.entryCount}|${v.signName}`}>{v.signName}</option>
       </>)}

@@ -40,26 +40,24 @@ function Feedback({ frames, feedback }) {
   }, [hint])
   
   return (<>
-    <div>
       
+    {frames && frames.length > 0 && frames.map((_, i) => <>
+      <p className='frame-title'>
+        Frame {i + 1}:
+      </p>
+      
+      <img
+        src={frames[i] ?? "Loading..."}
+      />
+
+      <p className='frame-text'>
+        {feedback[i].text ?? "Loading..."}
+      </p>
+    </>)}
       <HintButton
         text={hint.text}
         video={hint.video}
       />
-      {frames && frames.length > 0 && frames.map((_, i) => <>
-        <p>
-          {i + 1}: 
-        </p>
-        
-        <img
-          src={frames[i] ?? "Loading..."}
-        />
-
-        <p>
-          {feedback[i].text ?? "Loading..."}
-        </p>
-      </>)}
-    </div>
   </>)
 }
 

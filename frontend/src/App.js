@@ -4,20 +4,13 @@ import Webcam from './Webcam';
 import './App.css'; // Assuming you have some basic styles
 import SelectSign from './Components/SelectSign';
 import WelcomeScreen from './WelcomeScreen';
+import Navbar from './Components/Navbar';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <header>
-          <h1>Motion Mentor</h1>
-        </header>
-        <nav>
-          <ul style={{ display: 'flex', listStyle: 'none', gap: '20px' }}>
-            <li><Link to="/">Welcome</Link></li>
-            <li><Link to="/webcam">Take me there!</Link></li>
-            </ul>
-        </nav>
+        <Navbar />
         <main>
           <Routes>
             <Route path="/" element={<WelcomeScreen />} />

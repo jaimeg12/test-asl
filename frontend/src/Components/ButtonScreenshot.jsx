@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import '../styles/button.css'
 
 const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, setFrames, setFeedback}) => {
   // const [actionStatus, setActionStatus] = useState('Idle');
   const [timerText, setTimerText] = useState();
+  const [loading, setLoading] = useState(false);
   
   function startRecording() {
     const delay = 4; // # of seconds between captures
     setFrames([])
     const newFramesArray = []
     const newFeedbackArray = []
+    setLoading(true);
     for (let i = 0; i < currentSign.entryCount; i++) {
       setTimeout(async () => {
         const [frame, text] = await takeScreenshot();
@@ -21,9 +24,9 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
         console.log(newFramesArray)
         console.log("screenshot taken")
         if (newFeedbackArray.length === Number.parseInt(currentSign.entryCount) && newFramesArray.length === Number.parseInt(currentSign.entryCount)) {
-          console.log("wriou")
           setFrames(newFramesArray);
           setFeedback(newFeedbackArray);
+          setLoading(false);
         }
       }, delay * 1000 * (i + 1))
       
@@ -56,13 +59,20 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
     }, 3000); // 3 second delay
   };
 
-  return (
-    <div>
-      {/* <p>Status: {actionStatus}</p> */}
-      <button onClick={() => startRecording()}>Trigger Delayed Action</button>
-      <p>{ timerText }</p>
-    </div>
-  );
+  return (<>
+    {/* <p>Status: {actionStatus}</p> */}
+    <button
+      onClick={() => {
+        if (!loading)
+          startRecording()
+      }}
+      className='button'
+    >
+      Start Recording
+    </button>
+
+    <p>{ timerText }</p>
+  </>)
 };
 
 export default DelayedAction

@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import ButtonScreenshot from "./Components/ButtonScreenshot"
 import Feedback from './Components/Feedback';
 import SelectSign from './Components/SelectSign';
+import './styles/webcam.css'
 
 export default function Webcam() {
   const videoRef = useRef(null);
@@ -136,6 +137,7 @@ export default function Webcam() {
       <div className="max-w-2xl w-full">
         <h1 className="text-2xl font-bold text-center mb-6">Learn Sign Language!</h1>
         
+      <div className='buttons-container'>
         <div className="bg-white p-4 rounded-lg shadow-md">
           {hasPermission === null ? (
             <div className="text-center py-8">
@@ -154,15 +156,15 @@ export default function Webcam() {
                   width={320}
                   height={240}
                   style={{ display: "none" }}
-                />
+                  />
                   <video 
                     ref={videoRef} 
                     autoPlay 
                     playsInline
                     onCanPlay={handleVideoLoaded}
                     className="w-full rounded-md bg-black"
-                    style={{ minHeight: "240px" }}
-                  />
+                    style={{ height: '480px' }}
+                    />
               {!isVideoLoaded && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white">
                   Loading camera feed...
@@ -195,10 +197,10 @@ export default function Webcam() {
         </>)}
         </div>
         
-        <div className="mt-4 text-center">
-          <p className="text-sm text-gray-500">
+        <div className="">
+          {/* <p className="text-sm text-gray-500">
             Camera status: {hasPermission === null ? 'Requesting access' : hasPermission ? 'Connected' : 'Denied'}
-          </p>
+          </p> */}
           {error && <p className="text-sm text-red-500 mt-1">Error: {error}</p>}
         </div>
 
@@ -210,27 +212,30 @@ export default function Webcam() {
         >
           Take screenshot
         </button> */}
+          <div className='right-align'>
+            <SelectSign
+              setCurrentSign={setCurrentSign}
+            />
 
-        <SelectSign
-          setCurrentSign={setCurrentSign}
-        />
+            <ButtonScreenshot
+              currentSign={currentSign}
+              takeScreenshot={() => takeScreenshot()}
+              setCountDownText={setCountDownText}
+              frames={frames}
+              setFrames={setFrames}
+              setFeedback={setFeedback}
+            />
+            </div>
+          </div>
 
-        <ButtonScreenshot
-          currentSign={currentSign}
-          takeScreenshot={() => takeScreenshot()}
-          setCountDownText={setCountDownText}
-          frames={frames}
-          setFrames={setFrames}
-          setFeedback={setFeedback}
-        />
-
-        {frames && frames.length > 0 &&
-          <Feedback
-            frames={frames}
-            feedback={feedback}
-          />
-        }
-              
+        <div className='flex-container'>
+          {frames && frames.length > 0 &&
+            <Feedback
+              frames={frames}
+              feedback={feedback}
+            />
+          }
+        </div>
 
 
         {/* <img

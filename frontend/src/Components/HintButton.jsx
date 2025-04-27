@@ -5,21 +5,22 @@ function HintButton({ text, video }) {
   return (<>
     <button
       onClick={() => setShowHints(v => !v)}
+      className='hide-hints'
     >
       {showHints ? "Hide Hints" : "Show Hints"}  
     </button>
 
     {showHints && <>
-      <p>
+      <p className='frame-text'>
         Hint: {text}
       </p>
-      <p>
+      <p className='frame-title'>
         Video Demonstration:
       </p>
       <iframe
         src={video + "/preview"}
-        width="640"
-        height="480"
+        width={640}
+        height={360}
         allow="autoplay"
       />
     </>}

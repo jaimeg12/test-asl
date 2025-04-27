@@ -1,0 +1,12 @@
+.button {
+  background: #bd6bc8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
+  font-size: 1.2rem;
+  display: inline-flex;
+  background-position: right 10px top;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}
