@@ -1,5 +1,0 @@
-db_host = "pg-3b9aadcf-langsig.l.aivencloud.com"
-db_port = 16617
-db_name = "defaultdb"
-db_user = "avnadmin"
-db_pass = "AVNS_qDHEVmCN8ZRVgTWqWTW"

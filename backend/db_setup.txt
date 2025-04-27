@@ -1,14 +1,4 @@
--- Table
-CREATE TABLE sign_data (
-    signName VARCHAR(255),
-    frameNumber INT,
-    handShapeDescription TEXT,
-    locationDescription TEXT,
-    orientationDescription TEXT,
-    facialExpressionDescription TEXT
-);
-
--- Table
+-- Table 1
 CREATE TABLE sign_data (
     signName VARCHAR(255),
     frameNumber INT,
@@ -20,15 +10,50 @@ CREATE TABLE sign_data (
 
 -- Hello
 INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
-('Hello', 1, 'B-Handshape (Flat hand, thumb alongside)', 'Starts near the temple or forehead', 'Palm facing slightly outward/forward', 'Neutral or friendly (e.g., slight smile, raised eyebrows)'),
-('Hello', 2, 'B-Handshape (Flat hand, thumb alongside)', 'Moves outward and slightly forward away from the head', 'Palm facing slightly outward/forward', 'Neutral or friendly (e.g., slight smile, raised eyebrows)');
+('Hello', 1, 'B-Handshape: Flat hand, fingers together, thumb alongside index finger.', 'Near the side of the forehead or temple.', 'Palm faces mostly forward, may angle slightly outward.', 'Neutral expression or slight smile, perhaps briefly raised eyebrows (friendly).'),
+('Hello', 2, 'B-Handshape: Flat hand, fingers together, thumb alongside index finger.', 'Slightly outward and forward from the starting position near the head.', 'Palm faces mostly forward, may angle slightly outward.', 'Neutral expression or slight smile, perhaps briefly raised eyebrows (friendly).');
 
 -- Name
 INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
-('Name', 1, 'Both hands: H-Handshape (Index and middle fingers extended together, thumb crosses palm or alongside)', 'Hands in front of the chest/upper body', 'Hands form an X shape, dominant hand on top/slightly forward, fingers pointing somewhat opposite', 'Neutral'),
-('Name', 2, 'Both hands: H-Handshape (Index and middle fingers extended together, thumb crosses palm or alongside)', 'Hands in front of the chest/upper body', 'Dominant H-handshape taps the non-dominant H-handshape once (fingers make contact)', 'Neutral'),
-('Name', 3, 'Both hands: H-Handshape (Index and middle fingers extended together, thumb crosses palm or alongside)', 'Hands in front of the chest/upper body', 'Dominant H-handshape lifts slightly then taps the non-dominant H-handshape again (second tap)', 'Neutral');
+('Name', 1, 'Both hands: H-Handshape (Index and middle fingers extended together, other fingers closed, thumb tucked).', 'Hands held in front of the upper chest area.', 'Position hands so the extended fingers form an X shape; dominant hand slightly on top/forward, fingers pointing somewhat opposite, fingers from each hand touching.', 'Neutral expression.'),
+('Name', 2, 'Both hands: H-Handshape (Index and middle fingers extended together, other fingers closed, thumb tucked).', 'Hands held in front of the upper chest area.', 'Life the dominant hand fingers slightly above the other fingers.', 'Neutral expression.'),
+('Name', 3, 'Both hands: H-Handshape (Index and middle fingers extended together, other fingers closed, thumb tucked).', 'Hands held in front of the upper chest area.', 'Tap down again in the same place on the non-dominant hand, fingers from each hand touching (double tap motion).', 'Neutral expression.');
 
 -- My
 INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
-('My', 1, 'B-Handshape (Flat hand, fingers together, thumb alongside)', 'Placed flat on the center of the chest', 'Palm facing towards the body', 'Neutral');
+('My', 1, 'B-Handshape: Flat hand, fingers together, thumb alongside index finger or relaxed upwards.', 'On the center of the chest.', 'Palm faces directly towards your body.', 'Neutral expression.');
+
+-- Why 
+INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
+('Why', 1, 'Start forming a Y-Handshape (Thumb and pinky finger extended out, other fingers curled into palm).', 'Near the side of the forehead or temple.', 'Palm faces mostly inward, towards the side of the head.', 'Questioning expression: Eyebrows lowered slightly.'),
+('Why', 2, 'Maintain the Y-Handshape (Thumb and pinky extended, other fingers curled).', 'Slightly outward/downward from the starting position near the head.', 'Palm faces mostly inward, towards the side of the head.', 'Questioning expression: Eyebrows lowered slightly.');
+
+-- Nice 
+INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
+('Nice', 1, 'Both hands: Flat/Open Handshape (like B-Handshape, fingers can be slightly relaxed).', 'Hands in front of the chest, dominant hand placed flat on top of the non-dominant hand palm.', 'Non-dominant palm faces up; Dominant palm faces down, resting on the non-dominant palm.', 'Neutral expression or a slight, pleasant smile.'),
+('Nice', 2, 'Both hands: Flat/Open Handshape (like B-Handshape, fingers can be slightly relaxed).', 'Hands in front of the chest, dominant hand positioned forward across the non-dominant palm, near its fingertips.', 'Non-dominant palm stays facing up; Dominant palm stays facing down.', 'Neutral expression or a slight, pleasant smile.');
+
+-- Meet 
+INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
+('Meet', 1, 'Both hands: "1" Handshape (Index finger points up, other fingers closed into fist, thumb tucked).', 'Hands apart in the space in front of the chest.', 'Palms face each other; index fingers point generally upward.', 'Neutral expression.'),
+('Meet', 2, 'Both hands: "1" Handshape (Index finger points up, other fingers closed into fist, thumb tucked).', 'Hands together in front of the chest, knuckles/sides touching.', 'Palms face each other.', 'Neutral expression.');
+
+-- You 
+INSERT INTO sign_data (signName, frameNumber, handShapeDescription, locationDescription, orientationDescription, facialExpressionDescription) VALUES
+('You', 1, '"1" Handshape (Index finger extended, other fingers curled into palm, thumb tucked).', 'Dominant hand held in front of the chest or shoulder area.', 'Point the extended index finger directly at the person you are talking to.', 'Neutral expression.');
+
+-- Table 2
+CREATE TABLE sign_videos (
+    signName VARCHAR(255),
+    videoUrl TEXT
+);
+
+-- Videos
+INSERT INTO sign_videos (signName, videoUrl) VALUES 
+('Hello', 'https://drive.google.com/file/d/1cK4TDYARTevyEIq-48aqOw047RiuEu0s'),
+('Meet', 'https://drive.google.com/file/d/1HXMdEEVNtY5OMCDjWVRRM7NOrdsHM4-D'),
+('My', 'https://drive.google.com/file/d/1L5qxE4PrWTzpjXWtVWQkOHxKl_Us6J8d'),
+('Name', 'https://drive.google.com/file/d/1qOgYFtWnKmoZRVj4YNNKTZTbLTPfBzyQ'),
+('Nice', 'https://drive.google.com/file/d/1gPC2NfeQZTfPIkKuedf7JEeU8S6Ute2d'),
+('Why', 'https://drive.google.com/file/d/1_Z0bZlIv8PQpMLqjGpWfag6A0O7EQrlw'),
+('You', 'https://drive.google.com/file/d/1YNOT9d8C-gTooOkPYoCCzj7WL1BhZnW2');
