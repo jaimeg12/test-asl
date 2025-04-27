@@ -12,7 +12,8 @@ div {
 }
 
 h3 {
-  margin-bottom: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .button {
@@ -21,4 +22,5 @@ h3 {
 
 p {
   margin-bottom: 1rem;
+  text-align: justify
 }
