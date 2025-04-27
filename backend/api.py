@@ -91,7 +91,7 @@ Do not preface your response.
 
 First, verify if the image shows a person plausibly attempting sign language and briefly describe its content. If not (i.e. if there are no hands), state it's unsuitable for feedback because it doesn't depict a relevant sign attempt, and stop.
 
-If suitable, address the learner directly in one paragraph. Focusing only on this single keyframe and not the entire sign's movement, evaluate their performance based on the evaluation guide below. Reference details about their handshape, location, palm orientation, and non-manual signals naturally into your critique, without mentioning the guide or its categories. Conclude by assessing how accurately this specific frame matches the guide's information about '{sign_name}' and how recognizable it is as part of that sign (whether a person who knows sign language would be able to recognize it).
+If suitable, address the learner directly in one paragraph. Focusing only on this single keyframe and not the entire sign's movement, evaluate their performance based on the evaluation guide below. Reference details about their handshape, location, palm orientation, and non-manual signals naturally into your assessment, without mentioning the guide or its categories. Conclude by assessing how accurately this specific frame matches the guide's information about '{sign_name}' and how recognizable it is as part of that sign (whether a person who knows sign language would be able to recognize it).
 
 Evaluation guide for current keyframe in {sign_name}:
 Handshape: {sign_details[0]}
