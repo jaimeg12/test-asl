@@ -4,14 +4,29 @@
   padding: 0;
   display: inline-flex;
   width: 100vw;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
   padding-top: 0.5rem;
 }
 
 .logo {
-  font-size: xx-large;
+  font-size: x-large;
   font-weight: 800;
   text-align: left;
   text-decoration: none;
   padding-left: 2.5rem;
+}
+
+.right-align-navbar {
+  /* right: 2.5rem; */
+  margin-right: 2.5rem;
+  margin-left: auto;
+  justify-items: right;
+  width: min-content;
+}
+
+.link {
+  font-size: x-large;
+  margin-left: auto;
+  margin-top: auto;
+  width: max-content;
 }

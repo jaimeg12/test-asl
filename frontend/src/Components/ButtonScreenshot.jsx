@@ -12,6 +12,7 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
     const newFramesArray = []
     const newFeedbackArray = []
     setLoading(true);
+
     for (let i = 0; i < currentSign.entryCount; i++) {
       setTimeout(async () => {
         const [frame, text] = await takeScreenshot();
@@ -27,6 +28,7 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
           setFrames(newFramesArray);
           setFeedback(newFeedbackArray);
           setLoading(false);
+          setCountDownText('')
         }
       }, delay * 1000 * (i + 1))
       
@@ -34,6 +36,11 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
         setTimeout(() => {
           if (j === 0) {
             setCountDownText(`Picture Taken! (${i + 1}/${currentSign.entryCount})`)
+            if ((i + 1) === Number.parseInt(currentSign.entryCount)) {
+              setTimeout(() => {
+                setCountDownText('All pictures taken, loading feedback...')
+              }, 1000)
+            }
           } else {
             setCountDownText(j.toString());
           }

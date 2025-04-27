@@ -5,6 +5,7 @@ import './App.css'; // Assuming you have some basic styles
 import SelectSign from './Components/SelectSign';
 import WelcomeScreen from './WelcomeScreen';
 import Navbar from './Components/Navbar';
+import Home from './Home';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Navbar />
         <main>
           <Routes>
-            <Route path="/" element={<WelcomeScreen />} />
+            <Route path="/" element={<Home />} />
             <Route path="/webcam" element={<Webcam />} />
             {/* <SelectSign /> */}
           </Routes>

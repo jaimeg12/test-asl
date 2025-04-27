@@ -133,9 +133,9 @@ export default function Webcam() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="max-w-2xl w-full">
-        <h1 className="text-2xl font-bold text-center mb-6">Learn Sign Language!</h1>
+    <div>
+      <div >
+        <h1>Personalized ASL Feedback</h1>
         
       <div className='buttons-container'>
         <div className="bg-white p-4 rounded-lg shadow-md">
@@ -212,6 +212,7 @@ export default function Webcam() {
         >
           Take screenshot
         </button> */}
+        {isVideoLoaded && <>
           <div className='right-align'>
             <SelectSign
               setCurrentSign={setCurrentSign}
@@ -226,8 +227,9 @@ export default function Webcam() {
               setFeedback={setFeedback}
             />
             </div>
-          </div>
-
+            </>}
+        </div>
+        
         <div className='flex-container'>
           {frames && frames.length > 0 &&
             <Feedback
@@ -235,7 +237,7 @@ export default function Webcam() {
               feedback={feedback}
             />
           }
-        </div>
+          </div>
 
 
         {/* <img

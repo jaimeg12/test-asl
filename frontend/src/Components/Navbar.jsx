@@ -8,6 +8,11 @@ function Navbar() {
       <Link to='/' className='logo'> 
         VivaSign
       </Link>
+      <span className='right-align-navbar'>
+        <Link to='/webcam' className='link'>
+          Learn
+        </Link>
+      </span>
     </nav>
   </>)
 }
