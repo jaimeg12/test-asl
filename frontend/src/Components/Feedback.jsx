@@ -1,9 +1,42 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
+import HintButton from './HintButton';
 
-function Feedback({frames, feedback}) {
+async function fetchHints(signName) {
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow"
+  };
+  
+  const videoResponse = await fetch(`https://test-asl-api.onrender.com/video?signName=${signName}`, requestOptions)
+  const textResponse = await fetch(`"https://test-asl-api.onrender.com/explain?signName=${signName}`, requestOptions)
+
+  const videoURL = await videoResponse.text()
+  const hintText = await textResponse.text()
+
+  console.log(videoResponse)
+  console.log(textResponse)
+
+  return {
+    text: hintText,
+    video: videoURL
+  }
+}
+
+function Feedback({ frames, feedback }) {
+  const [hint, setHint] = useState({
+    text: "",
+    video: ""
+  })
+
+  const _response = useMemo(async () => {
+    console.log(feedback)
+    const res = await fetchHints(feedback[0].signName)
+    setHint(res)
+  }, [])
+  
   return (<>
     <div>
-      {frames && frames.length > 0 && frames.map((v, i) => <>
+      {frames && frames.length > 0 && frames.map((_, i) => <>
         <p>
           {i}: 
         </p>
@@ -13,8 +46,13 @@ function Feedback({frames, feedback}) {
         />
 
         <p>
-          {feedback[i] ?? "Loading..."}
+          {feedback[i].text ?? "Loading..."}
         </p>
+
+        <HintButton
+          text={hint.text}
+          video={hint.video}
+        />
       </>)}
     </div>
   </>)

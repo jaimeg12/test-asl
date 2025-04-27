@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 // import axios from 'axios';
 import ButtonScreenshot from "./Components/ButtonScreenshot"
 import Feedback from './Components/Feedback';
+import SelectSign from './Components/SelectSign';
 
 export default function Webcam() {
   const videoRef = useRef(null);
@@ -15,7 +16,7 @@ export default function Webcam() {
   const [frames, setFrames] = useState([]);
   const [countDownText, setCountDownText] = useState();
   const [currentSign, setCurrentSign] = useState({
-    entryCount: 2,
+    entryCount: 1,
     signName: null
   })
 
@@ -78,10 +79,12 @@ export default function Webcam() {
     // }
 
     //sending photo URI to backend
+
+    console.log(currentSign)
     const formdata = new FormData();
-    formdata.append("signName", "My"); 
-    formdata.append("frameNumber", "1");
-    formdata.append("imageBase64", data + "\n");
+    formdata.append("signName", currentSign.signName); 
+    formdata.append("frameNumber", currentSign.entryCount);
+    formdata.append("imageBase64", data);
 
     const requestOptions = {
     method: "POST",
@@ -91,11 +94,11 @@ export default function Webcam() {
 
     try {
 
-      const response = fetch("https://test-asl-api.onrender.com/evaluate", requestOptions)
+      const response = await fetch("https://test-asl-api.onrender.com/evaluate", requestOptions)
           console.log(response)
           console.log(response.body)
         // console.log(response.text().then(v => v));
-      const text = await (await response).text();
+      const text = await response.text();
       // const newFeedbackArray = [...feedback, text];
       // setFeedback(newFeedbackArray);
       // console.log(feedback)
@@ -205,6 +208,10 @@ export default function Webcam() {
         >
           Take screenshot
         </button> */}
+
+        <SelectSign
+          setCurrentSign={setCurrentSign}
+        />
 
         <ButtonScreenshot
           currentSign={currentSign}
