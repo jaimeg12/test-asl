@@ -29,7 +29,7 @@ function Home() {
       Once all parts are done, you'll receive personalized feedback based on your performance. 
       </p>
     </div>
-    <Link className='button' to='/webcam'>
+    <Link className='begin-button' to='/webcam'>
       Begin
     </Link>
   </>)
