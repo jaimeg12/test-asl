@@ -8,6 +8,7 @@
   padding-top: 0.5rem;
   padding-left: 0rem;
   padding-right: 0rem;
+  box-sizing: border-box;
 }
 
 .logo {
