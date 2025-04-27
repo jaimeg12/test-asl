@@ -90,15 +90,6 @@ function WelcomeScreen() {
       
       <div className="flex-grow flex items-center justify-center p-6">
         <div className="max-w-3xl w-full">
-          {/* Hero section */}
-          <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold mb-4 tracking-tight">Welcome to AI Coding</h1>
-            <p className="text-xl text-blue-200 mb-6">A modern webcam application built with React</p>
-            <p className="text-lg max-w-xl mx-auto text-blue-100">
-              Capture and share moments easily with our webcam app. 
-              Featuring a sleek interface and powerful functionality.
-            </p>
-          </div>
           
           {/* Features */}
           <div className="backdrop-blur-sm bg-white bg-opacity-10 rounded-xl p-8 mb-10 shadow-xl">

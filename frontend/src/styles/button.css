@@ -9,4 +9,10 @@
   background-position: right 10px top;
   margin-left: 1rem;
   margin-top: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(.4,2,.6,1);
+}
+
+.button.clicked {
+  transform: scale(0.9);
 }

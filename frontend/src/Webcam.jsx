@@ -132,6 +132,7 @@ export default function Webcam() {
     setIsVideoLoaded(true);
   };
 
+
   return (
     <div>
       <div >
@@ -225,7 +226,9 @@ export default function Webcam() {
               frames={frames}
               setFrames={setFrames}
               setFeedback={setFeedback}
+              id = 'animateButton'
             />
+            
             </div>
             </>}
         </div>
@@ -245,6 +248,8 @@ export default function Webcam() {
           // style={{ height: "1280px", width: "7"}}
         /> */}
       </div>
+      
     </div>
+    
   );
 }

@@ -16,16 +16,21 @@ function Home() {
     </h3>
 
     <div>
-      <p>
+      <h3>
         How to Use: 
-      </p>
+      </h3>
 
       <p>
-        Pick the sign you want to practice and click "Start Recording". A timer will count down for each key part of the sign. Perform each part to the best of your ability, focusing on hand shape, movement, and facial expression. Make sure you are in the correct position by the time each countdown finishes. Once all parts are done, you'll receive personalized feedback based on your performance. 
+        Pick the sign you want to practice and click "Start Recording". A timer will count down for each key part of the sign, taking 1-3 screenshots based on the complexity of your sign. 
+      </p>
+      <p> Perform each part to the best of your ability, focusing on hand shape, movement, and facial expression. Make sure you are in the correct position by the time each countdown finishes. 
+      </p>
+      <p>
+      Once all parts are done, you'll receive personalized feedback based on your performance. 
       </p>
     </div>
     <Link className='button' to='/webcam'>
-      Start now
+      Begin
     </Link>
   </>)
 }

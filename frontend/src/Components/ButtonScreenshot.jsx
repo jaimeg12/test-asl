@@ -75,7 +75,7 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
       }}
       className='button'
     >
-      Start Recording
+      Start Countdown
     </button>
 
     <p>{ timerText }</p>

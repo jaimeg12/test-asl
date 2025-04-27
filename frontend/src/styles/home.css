@@ -18,3 +18,7 @@ h3 {
 .button {
   text-decoration: none;
 }
+
+p {
+  margin-bottom: 1rem;
+}
