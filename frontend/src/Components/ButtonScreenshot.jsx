@@ -13,10 +13,17 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
       setTimeout(async () => {
         const [frame, text] = await takeScreenshot();
         newFramesArray.push(frame);
-        newFeedbackArray.push(text);
+        newFeedbackArray.push({
+          text,
+          signName: currentSign.signName
+        });
         console.log(newFeedbackArray)
         console.log(newFramesArray)
         console.log("screenshot taken")
+        if (newFeedbackArray.length === currentSign.entryCount && newFramesArray.length === currentSign.entryCount) {
+          setFrames(newFramesArray);
+          setFeedback(newFeedbackArray);
+        }
       }, delay * 1000 * (i + 1))
       
       for (let j = 0; j < delay; j++) {
@@ -29,10 +36,10 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
         }, (delay - j) * 1000 + (i * delay * 1000));
       }
 
-      setTimeout(() => {
-        setFrames(newFramesArray);
-        setFeedback(newFeedbackArray);
-      }, [delay * (currentSign.entryCount + 2) * 1000])
+      // setTimeout(() => {
+      //   setFrames(newFramesArray);
+      //   setFeedback(newFeedbackArray);
+      // }, [delay * (currentSign.entryCount + 2) * 1000])
     }
   }
 
