@@ -48,7 +48,7 @@ function Feedback({ frames, feedback }) {
       />
       {frames && frames.length > 0 && frames.map((_, i) => <>
         <p>
-          {i}: 
+          {i + 1}: 
         </p>
         
         <img

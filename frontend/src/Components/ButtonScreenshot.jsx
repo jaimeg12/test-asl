@@ -20,7 +20,8 @@ const DelayedAction = ({takeScreenshot, currentSign, setCountDownText, frames, s
         console.log(newFeedbackArray)
         console.log(newFramesArray)
         console.log("screenshot taken")
-        if (newFeedbackArray.length === currentSign.entryCount && newFramesArray.length === currentSign.entryCount) {
+        if (newFeedbackArray.length === Number.parseInt(currentSign.entryCount) && newFramesArray.length === Number.parseInt(currentSign.entryCount)) {
+          console.log("wriou")
           setFrames(newFramesArray);
           setFeedback(newFeedbackArray);
         }
