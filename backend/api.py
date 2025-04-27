@@ -6,6 +6,7 @@ from google import genai
 import os
 from dotenv import load_dotenv
 from flask_cors import CORS, cross_origin
+import time
 
 load_dotenv()
 
@@ -47,7 +48,8 @@ def evaluate_keyframe():
         base64_data = re.sub('^data:image/.+;base64,', '', image_base64)
         image_data = base64.b64decode(base64_data)
 
-        filepath = f"./images/{sign_name}_{frame_number}.jpg"
+        timestamp = int(time.time() * 1000)
+        filepath = f"./images/{sign_name}_{frame_number}_{timestamp}.jpg"
         with open(filepath, "wb") as f:
             f.write(image_data)
     except Exception as e:
@@ -225,6 +227,66 @@ def generate_instruction():
         return "AI instruction generation error.", 500
 
     return response_text, 200
+
+@app.route("/video", methods=["GET"])
+@cross_origin()
+def get_video():
+    conn = None
+    try:
+        sign_name = request.args.get('signName')
+        if not sign_name:
+            return "Missing 'signName' query parameter.", 400
+
+        conn = psycopg2.connect(**db_config)
+        cursor = conn.cursor()
+
+        sql = """
+            SELECT videoUrl
+            FROM sign_videos
+            WHERE signName = %s;
+        """
+        cursor.execute(sql, (sign_name,))
+        result = cursor.fetchone()
+
+        cursor.close()
+
+        if result:
+            return result[0], 200
+        else:
+            return f"No video found for sign '{sign_name}'", 404
+
+    except (Exception, psycopg2.Error) as e:
+        print(f"Database error: {e}")
+        return "Database access error.", 500
+    finally:
+        if conn:
+            conn.close()
+
+@app.route("/translate", methods=["POST"])
+@cross_origin()
+def translate_text():
+    input_text = request.args.get('text')
+    target_language = request.args.get('language')
+
+    if not input_text or not target_language:
+        print("Translation request missing 'text' or 'language' in body.")
+        return "Missing required fields: 'text' and 'language'.", 400
+
+    try:
+        translation_prompt = f"Translate the following text into {target_language}. Respond only with the translation and nothing else.\n\n{input_text}"
+
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=[translation_prompt],
+        )
+        translated_text = response.text
+
+    except Exception as e:
+        print(f"Gemini translation API error: {e}")
+        return "AI translation error.", 500
+
+    return translated_text, 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)
