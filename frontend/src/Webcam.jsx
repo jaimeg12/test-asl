@@ -69,7 +69,7 @@ export default function Webcam() {
     // if (width && height) {
       // canvasRef.current.width = width;
       // canvasRef.current.height = height;
-      context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+    context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
   
     const data = canvasRef.current.toDataURL("image/png");
     // console.log(data)
@@ -147,12 +147,14 @@ export default function Webcam() {
               <p className="mt-2">{error || "Please allow camera access to use this app."}</p>
             </div>
           ) : (<>
+            <div className="webcam-container" style= {{ position: "relative"}}>
                 <canvas
                   ref={canvasRef}
                   // className="w-full rounded-md bg-black"
-                  style={{ visibility: "hidden", width: 0, height: 0 }}
+                  width={320}
+                  height={240}
+                  style={{ display: "none" }}
                 />
-            <div className="webcam-container" style= {{ position: "relative"}}>
                   <video 
                     ref={videoRef} 
                     autoPlay 

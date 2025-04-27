@@ -17,7 +17,7 @@ function HintButton({ text, video }) {
         Video Demonstration:
       </p>
       <iframe
-        src={video}
+        src={video + "/preview"}
         width="640"
         height="480"
         allow="autoplay"
